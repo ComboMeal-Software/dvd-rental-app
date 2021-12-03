@@ -1,0 +1,23 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+tui-root {
+    background: var(--tui-base-02);
+}
+
+.header {
+    @include shadow(2);
+
+    position: relative;
+    z-index: 2;
+    padding: 8px 24px;
+    background: var(--tui-base-01);
+}
+
+.main {
+    background: var(--tui-base-01);
+    height: calc(100vh - 40px);
+
+    &__search-wrapper {
+        padding: 20px 20px;
+    }
+}
