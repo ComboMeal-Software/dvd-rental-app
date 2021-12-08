@@ -3,33 +3,6 @@
         <div class="tui-text_h6">DVD renting</div>
     </div>
     <div class="main tui-container">
-        <form class="main__search-wrapper group">
-            <div tuiGroup class="group" [collapsed]="true">
-                <tui-input
-                    formControlName="testValue"
-                    tuiTextfieldExampleText="Поиск..."
-                    tuiHintContent="Введите название для DVD или номер телефона для клиента"
-                >
-                </tui-input>
-
-                <tui-radio-block
-                    [hideRadio]="true"
-                    appearance="primary"
-                    formControlName="testValue"
-                    item="orange"
-                    size="l"
-                >
-                    DVD
-                </tui-radio-block>
-                <tui-radio-block
-                    [hideRadio]="true"
-                    formControlName="testValue"
-                    item="apple"
-                    size="l"
-                >
-                    Клиент
-                </tui-radio-block>
-            </div>
-        </form>
+        <app-search></app-search>
     </div>
 </tui-root>

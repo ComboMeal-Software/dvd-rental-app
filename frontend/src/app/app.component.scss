@@ -1,7 +1,7 @@
 @import '~@taiga-ui/core/styles/taiga-ui-local';
 
 tui-root {
-    background: var(--tui-base-02);
+    background: var(--tui-base-03);
 }
 
 .header {
@@ -14,10 +14,6 @@ tui-root {
 }
 
 .main {
-    background: var(--tui-base-01);
+    background: var(--tui-base-02);
     height: calc(100vh - 40px);
-
-    &__search-wrapper {
-        padding: 20px 20px;
-    }
 }
