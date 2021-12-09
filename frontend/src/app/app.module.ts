@@ -1,4 +1,9 @@
-import { TuiButtonModule, TuiGroupModule, TuiRootModule } from "@taiga-ui/core";
+import {
+    TuiButtonModule,
+    TuiDialogModule,
+    TuiGroupModule,
+    TuiRootModule,
+} from "@taiga-ui/core";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
@@ -17,6 +22,7 @@ import { DvdCreatingModule } from "./pages/dvd-creating-page/dvd-creating.module
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
+        TuiDialogModule,
         TuiRootModule,
         TuiGroupModule,
         TuiButtonModule,

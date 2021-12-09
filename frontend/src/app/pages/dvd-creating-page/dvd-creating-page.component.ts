@@ -1,15 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
-  selector: 'app-dvd-creating-page',
-  templateUrl: './dvd-creating-page.component.html',
-  styleUrls: ['./dvd-creating-page.component.scss']
+    selector: "app-dvd-creating-page",
+    templateUrl: "./dvd-creating-page.component.html",
+    styleUrls: ["./dvd-creating-page.component.scss"],
 })
-export class DvdCreatingPageComponent implements OnInit {
+export class DvdCreatingPageComponent {
+    items = [
+        "Luke Skywalker",
+        "Leia Organa Solo",
+        "Darth Vader",
+        "Han Solo",
+        "Obi-Wan Kenobi",
+        "Yoda",
+    ];
 
-  constructor() { }
+    dvdForm = new FormGroup({});
 
-  ngOnInit(): void {
-  }
-
+    testValue = new FormControl(this.items[0]);
 }
