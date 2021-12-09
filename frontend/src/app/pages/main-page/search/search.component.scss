@@ -1,3 +1,9 @@
+@import '~@taiga-ui/core/styles/taiga-ui-local';
+
+.wrapper {
+    @include tui-space(bottom, 10);
+}
+
 .search-input {
     width: 70%;
 }

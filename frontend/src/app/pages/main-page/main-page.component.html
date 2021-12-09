@@ -1,1 +1,7 @@
 <app-search></app-search>
+
+<app-dvd-list *ngIf="currentSearchMode === searchMode.DVD; else clientList"></app-dvd-list>
+<ng-template #clientList>
+    <app-client-list ></app-client-list>
+</ng-template>
+

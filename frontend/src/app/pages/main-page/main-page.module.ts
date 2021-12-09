@@ -9,6 +9,8 @@ import {
 import { TuiInputModule, TuiRadioBlockModule } from "@taiga-ui/kit";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MainPageComponent } from "./main-page.component";
+import { DvdListModule } from "./dvd-list/dvd-list.module";
+import { ClientListModule } from "./client-list/client-list.module";
 
 @NgModule({
     declarations: [SearchComponent, MainPageComponent],
@@ -20,6 +22,8 @@ import { MainPageComponent } from "./main-page.component";
         TuiRadioBlockModule,
         TuiInputModule,
         TuiButtonModule,
+        DvdListModule,
+        ClientListModule,
     ],
     exports: [MainPageComponent],
 })

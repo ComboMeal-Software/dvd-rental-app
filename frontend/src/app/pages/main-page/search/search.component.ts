@@ -1,14 +1,10 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
+import { SearchMode } from "../search-mode";
 
 enum SearchFormField {
     TEXT,
     MODE,
-}
-
-enum SearchMode {
-    DVD,
-    CLIENT,
 }
 
 @Component({
