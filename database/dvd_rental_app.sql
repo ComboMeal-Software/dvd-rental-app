@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio 2020 for MySQL, Версия 9.0.567.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 08.12.2021 20:12:27
+-- Дата скрипта: 09.12.2021 15:39:07
 -- Версия сервера: 8.0.26
 -- Версия клиента: 4.1
 --
@@ -42,6 +42,7 @@ CREATE TABLE type (
 )
 ENGINE = INNODB,
 AUTO_INCREMENT = 7,
+AVG_ROW_LENGTH = 2730,
 CHARACTER SET utf8mb4,
 COLLATE utf8mb4_0900_ai_ci;
 
@@ -76,8 +77,9 @@ CREATE TABLE customers (
   customer_id int UNSIGNED NOT NULL AUTO_INCREMENT,
   first_name varchar(255) DEFAULT '',
   last_name varchar(255) DEFAULT '',
-  passport_code int UNSIGNED DEFAULT NULL,
   registration_date datetime DEFAULT CURRENT_TIMESTAMP,
+  tel_number varchar(20) NOT NULL,
+  birthdate date DEFAULT NULL,
   PRIMARY KEY (customer_id),
   UNIQUE INDEX customer_id (customer_id)
 )
@@ -88,9 +90,15 @@ CHARACTER SET utf8mb4,
 COLLATE utf8mb4_0900_ai_ci;
 
 --
--- Создать таблицу `offer`
+-- Создать индекс `UK_customers_tel_number` для объекта типа таблица `customers`
 --
-CREATE TABLE offer (
+ALTER TABLE customers
+ADD UNIQUE INDEX UK_customers_tel_number (tel_number);
+
+--
+-- Создать таблицу `rent`
+--
+CREATE TABLE rent (
   offer_id int UNSIGNED NOT NULL AUTO_INCREMENT,
   dvd_id int UNSIGNED DEFAULT NULL,
   customer_id int UNSIGNED DEFAULT NULL,
@@ -108,14 +116,14 @@ COLLATE utf8_general_ci;
 --
 -- Создать внешний ключ
 --
-ALTER TABLE offer
+ALTER TABLE rent
 ADD CONSTRAINT FK_offer_customer_id FOREIGN KEY (customer_id)
 REFERENCES customers (customer_id);
 
 --
 -- Создать внешний ключ
 --
-ALTER TABLE offer
+ALTER TABLE rent
 ADD CONSTRAINT FK_offer_dvd_id FOREIGN KEY (dvd_id)
 REFERENCES dvd (dvd_id);
 
@@ -164,16 +172,16 @@ INSERT INTO dvd VALUES
 -- Вывод данных для таблицы customers
 --
 INSERT INTO customers VALUES
-(1, 'Анжела', 'Большакова', 1234, '2021-10-07 23:57:40'),
-(2, 'Мария', 'Канюшкова', 2345, '2021-10-07 23:57:40'),
-(3, 'Дмитрий', 'Воробьёв', 3456, '2021-10-07 23:57:40'),
-(4, 'Елизавета', 'Киско', 4567, '2021-10-07 23:57:40'),
-(5, 'Денис', 'Призраков', 5678, '2021-10-07 23:57:40');
+(1, 'Анжела', 'Большакова', '2021-10-07 23:57:40', '+79048478834', '2000-03-01'),
+(2, 'Мария', 'Канюшкова', '2021-10-07 23:57:40', '+79387478289', '2001-05-18'),
+(3, 'Дмитрий', 'Воробьёв', '2021-10-07 23:57:40', '+79823785873', '2003-07-28'),
+(4, 'Елизавета', 'Киско', '2021-10-07 23:57:40', '+79823658833\r\n', '1998-01-21'),
+(5, 'Денис', 'Призраков', '2021-10-07 23:57:40', '+79837528085', '1999-09-08');
 
 -- 
--- Вывод данных для таблицы offer
+-- Вывод данных для таблицы rent
 --
-INSERT INTO offer VALUES
+INSERT INTO rent VALUES
 (1, 1, 3, '2016-07-05 00:00:00', '2017-01-01 00:00:00'),
 (2, 7, 5, '2015-04-19 00:00:00', NULL),
 (3, 6, 1, '2021-10-07 23:57:40', NULL);
