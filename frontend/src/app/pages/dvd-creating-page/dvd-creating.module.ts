@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { DvdCreatingPageComponent } from "./dvd-creating-page.component";
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+    declarations: [DvdCreatingPageComponent],
+    imports: [CommonModule],
+    exports: [DvdCreatingPageComponent],
 })
-export class DvdCreatingModule { }
+export class DvdCreatingModule {}

@@ -1,27 +1,31 @@
-<form [formGroup]="searchForm" class="wrapper group">
+<form [formGroup]="searchForm" class="group">
     <div tuiGroup class="group" [collapsed]="true">
         <tui-input
             [formControlName]="searchFormField.TEXT"
-            tuiHintContent="Введите название для DVD или номер телефона для клиента"
+            tuiHintContent="Enter name of DVD or client phone number"
             class="tui-group__auto-width-item search-input"
         >
-            Поиск
+            Search
         </tui-input>
 
         <tui-radio-block
             [hideRadio]="true"
             [formControlName]="searchFormField.MODE"
-            appearance="primary"
-            item="dvd"
+            [item]="searchMode.DVD"
         >
             DVD
         </tui-radio-block>
         <tui-radio-block
             [hideRadio]="true"
             [formControlName]="searchFormField.MODE"
-            item="client"
+            [item]="searchMode.CLIENT"
         >
-            Клиент
+            Client
         </tui-radio-block>
+        <button
+            tuiIconButton
+            icon="tuiIconSearchLarge"
+            class="tui-group__auto-width-item"
+        ></button>
     </div>
 </form>

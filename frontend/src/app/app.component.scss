@@ -15,5 +15,16 @@ tui-root {
 
 .main {
     background: var(--tui-base-02);
-    height: calc(100vh - 40px);
+    height: calc(100vh - 80px);
+    padding: 20px 20px;
+}
+
+.navigation {
+    position: absolute;
+    left: -10px;
+    top: 60px;
+}
+
+.active {
+    @include shadow(2);
 }
