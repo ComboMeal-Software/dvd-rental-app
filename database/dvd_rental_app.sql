@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio 2020 for MySQL, Версия 9.0.567.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 09.12.2021 15:39:07
+-- Дата скрипта: 10.12.2021 19:49:49
 -- Версия сервера: 8.0.26
 -- Версия клиента: 4.1
 --
@@ -58,7 +58,7 @@ CREATE TABLE dvd (
   UNIQUE INDEX dvd_id (dvd_id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 26,
+AUTO_INCREMENT = 29,
 AVG_ROW_LENGTH = 1820,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
@@ -84,7 +84,7 @@ CREATE TABLE customers (
   UNIQUE INDEX customer_id (customer_id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 6,
+AUTO_INCREMENT = 9,
 AVG_ROW_LENGTH = 3276,
 CHARACTER SET utf8mb4,
 COLLATE utf8mb4_0900_ai_ci;
@@ -108,7 +108,7 @@ CREATE TABLE rent (
   UNIQUE INDEX offer_id (offer_id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 4,
+AUTO_INCREMENT = 12,
 AVG_ROW_LENGTH = 5461,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
@@ -184,7 +184,13 @@ INSERT INTO customers VALUES
 INSERT INTO rent VALUES
 (1, 1, 3, '2016-07-05 00:00:00', '2017-01-01 00:00:00'),
 (2, 7, 5, '2015-04-19 00:00:00', NULL),
-(3, 6, 1, '2021-10-07 23:57:40', NULL);
+(3, 6, 1, '2021-10-07 23:57:40', '2021-12-10 18:37:30'),
+(5, 25, 3, '2021-12-10 18:51:37', '2021-12-10 18:37:30'),
+(6, 25, 4, '2021-12-10 18:51:37', NULL),
+(7, 21, 2, '2021-12-10 19:06:12', '2021-12-10 18:37:30'),
+(8, 21, 1, '2021-12-10 19:06:12', '2021-12-10 18:37:30'),
+(9, 21, 1, '2021-12-10 19:10:34', NULL),
+(11, 25, 2, '2021-12-10 19:28:52', '2021-12-10 18:37:30');
 
 -- 
 -- Восстановить предыдущий режим SQL (SQL mode)
