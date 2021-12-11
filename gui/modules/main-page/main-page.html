@@ -1,0 +1,72 @@
+<div ng-controller="MainPageCtrl">
+    <form class="w-100 pb-4">
+        <div class="input-group">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Search by DVD name or client phone number"
+               aria-label="Search"
+            >
+
+            <label ng-class="{'btn-dark': mode === 'dvd', 'btn-outline-dark': mode !== 'dvd'}" class="btn">
+                <input
+                    ng-model="mode"
+                    type="radio"
+                    class="btn-check"
+                    name="mode"
+                    value="dvd"
+                >
+                DVD
+            </label>
+
+            <label ng-class="{'btn-dark': mode === 'client', 'btn-outline-dark': mode !== 'client'}" class="btn">
+                <input
+                    ng-model="mode"
+                    type="radio"
+                    class="btn-check"
+                    name="mode"
+                    value="client"
+                >
+                Client
+            </label>
+
+            <button type="button" class="btn btn-primary">
+                <svg width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
+                    <use href="assets/icons/feather-icons.svg#search"/>
+                </svg>
+            </button>
+        </div>
+    </form>
+
+    <div ng-style="{'display': showLoader ? 'block' : 'none'}" id="loader" class="pv-3">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div ng-show="mode === 'dvd'" class="row-cols-3">
+        DVD
+        <div ng-repeat="dvd in dvdData" class="col">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ dvd.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Release date: {{ dvd.productionYear }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="mode === 'client'" class="row-cols-3">
+        Clients
+        <div ng-repeat="client in clientData" class="col">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ client.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Release date: {{ client.productionYear }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -2,6 +2,6 @@
 
 angular.module('app.header', []).directive('appHeader', [function () {
     return {
-        templateUrl: 'header/header.html'
+        templateUrl: 'modules/header/header.html'
     };
 }]);

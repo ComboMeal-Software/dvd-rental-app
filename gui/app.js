@@ -8,8 +8,8 @@ angular.module('app', [
     'app.addClientPage',
 ]).config(function ($routeProvider) {
     $routeProvider
-        .when("/main", {templateUrl: "main-page/main-page.html"})
-        .when("/add-dvd", {templateUrl: "add-dvd-page/add-dvd-page.html"})
-        .when("/add-client", {templateUrl: "add-client-page/add-client-page.html"})
+        .when("/main", {templateUrl: "modules/main-page/main-page.html"})
+        .when("/add-dvd", {templateUrl: "modules/add-dvd-page/add-dvd-page.html"})
+        .when("/add-client", {templateUrl: "modules/add-client-page/add-client-page.html"})
         .otherwise(({redirectTo: '/main'}))
 });
