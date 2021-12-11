@@ -1,9 +1,10 @@
 ﻿-- /dvd
 -- /dvd/find
 -- Поиск дисков по подстроке
-SELECT *
-FROM dvd_rental_app.dvd
-WHERE title LIKE '%find%'; -- find - подстрока, по которой ищется диск
+SELECT d.dvd_id, d.title, d.production_year, t.type, c.tel_number, c.first_name, c.last_name, re.offer_date
+FROM dvd_rental_app.dvd d JOIN dvd_rental_app.type t ON d.type_id = t.type_id LEFT OUTER JOIN (SELECT * FROM dvd_rental_app.rent WHERE return_date IS NULL) re ON (d.dvd_id = re.dvd_id) LEFT OUTER JOIN dvd_rental_app.customers c ON re.customer_id = c.customer_id
+WHERE d.title LIKE '%find%' -- find - подстрока, по которой ищется диск
+ORDER BY d.dvd_id;
 
 -- dvd_rental_app.dvd_find(IN find VARCHAR(255))
 
@@ -16,8 +17,8 @@ FROM dvd_rental_app.type;
 
 -- /dvd/
 -- Возвращает N самых новых и свободных dvd для отображения при открытии главной страницы
-SELECT DISTINCT d.*
-FROM dvd_rental_app.dvd d LEFT OUTER JOIN dvd_rental_app.rent r on d.dvd_id = r.dvd_id LEFT OUTER JOIN (SELECT * FROM dvd_rental_app.rent WHERE return_date IS NULL) re ON (d.dvd_id = re.dvd_id)
+SELECT DISTINCT d.dvd_id, d.title, d.production_year, t.type
+FROM dvd_rental_app.dvd d JOIN dvd_rental_app.type t ON d.type_id = t.type_id LEFT OUTER JOIN dvd_rental_app.rent r on d.dvd_id = r.dvd_id LEFT OUTER JOIN (SELECT * FROM dvd_rental_app.rent WHERE return_date IS NULL) re ON (d.dvd_id = re.dvd_id)
 WHERE (r.offer_id IS NULL) OR (r.offer_id IS NOT NULL AND re.offer_id IS NULL)
 ORDER BY d.dvd_id DESC
 LIMIT 5;
