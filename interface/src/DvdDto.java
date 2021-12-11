@@ -1,9 +1,6 @@
-<%@ page import="jakarta.servlet.annotation.WebServlet,jakarta.servlet.http.HttpServlet,jakarta.servlet.http.HttpServletRequest,
-jakarta.servlet.http.HttpServletResponse,java.io.IOException,java.io.PrintWriter,java.sql.*,com.fasterxml.jackson.databind.ObjectMapper" %>
+package ml.thomasmiles.dvdrentalapp;
 
-<%
-
-    static class DvdDto {
+public class DvdDto {
 
     private String title;
 
@@ -44,13 +41,3 @@ jakarta.servlet.http.HttpServletResponse,java.io.IOException,java.io.PrintWriter
         this.typeId = typeId;
     }
 }
-
-    ObjectMapper mapper = new ObjectMapper();
-    DvdDto dvdDto = mapper.readValue(request.getInputStream(), DvdDto.class);
-    PrintWriter writer = response.getWriter();
-    response.setContentType("application/json");
-
-    writer.println(dvdDto.getTitle());
-    writer.println(dvdDto.getProductionYear());
-    writer.println(dvdDto.getTypeId());
-%>

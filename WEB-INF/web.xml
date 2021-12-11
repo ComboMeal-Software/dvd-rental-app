@@ -6,11 +6,11 @@
 
     <servlet>
         <servlet-name>StudentsServlet</servlet-name>
-        <servlet-class>ml.thomasmiles.block02.StudentsServlet</servlet-class>
+        <servlet-class>ml.thomasmiles.dvdrentalapp.StudentsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>InstituteServlet</servlet-name>
-        <servlet-class>ml.thomasmiles.block02.DvdFindServlet</servlet-class>
+        <servlet-class>ml.thomasmiles.dvdrentalapp.DvdFindServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

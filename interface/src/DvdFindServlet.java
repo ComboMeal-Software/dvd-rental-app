@@ -1,4 +1,4 @@
-package ml.thomasmiles.block02;
+package ml.thomasmiles.dvdrentalapp;
 
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
