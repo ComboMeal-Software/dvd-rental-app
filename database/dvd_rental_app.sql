@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio 2020 for MySQL, Версия 9.0.567.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 10.12.2021 21:45:46
+-- Дата скрипта: 11.12.2021 18:42:56
 -- Версия сервера: 8.0.26
 -- Версия клиента: 4.1
 --
@@ -52,7 +52,7 @@ COLLATE utf8mb4_0900_ai_ci;
 CREATE TABLE dvd (
   dvd_id int UNSIGNED NOT NULL AUTO_INCREMENT,
   title varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '',
-  production_year year DEFAULT NULL,
+  production_year int DEFAULT NULL,
   type_id int UNSIGNED DEFAULT NULL,
   PRIMARY KEY (dvd_id),
   UNIQUE INDEX dvd_id (dvd_id)
@@ -220,8 +220,13 @@ DEFINER = 'root'@'localhost'
 PROCEDURE dvd ()
 BEGIN
   SELECT DISTINCT
-    d.*
+    d.dvd_id,
+    d.title,
+    d.production_year,
+    t.type
   FROM dvd_rental_app.dvd d
+    JOIN dvd_rental_app.type t
+      ON d.type_id = t.type_id
     LEFT OUTER JOIN dvd_rental_app.rent r
       ON d.dvd_id = r.dvd_id
     LEFT OUTER JOIN (SELECT
@@ -260,9 +265,26 @@ DEFINER = 'root'@'localhost'
 PROCEDURE dvd_find (IN find varchar(255))
 BEGIN
   SELECT
-    *
-  FROM dvd_rental_app.dvd
-  WHERE title LIKE CONCAT('%', find, '%');
+    d.dvd_id,
+    d.title,
+    d.production_year,
+    t.type,
+    c.tel_number,
+    c.first_name,
+    c.last_name,
+    re.offer_date
+  FROM dvd_rental_app.dvd d
+    JOIN dvd_rental_app.type t
+      ON d.type_id = t.type_id
+    LEFT OUTER JOIN (SELECT
+        *
+      FROM dvd_rental_app.rent
+      WHERE return_date IS NULL) re
+      ON (d.dvd_id = re.dvd_id)
+    LEFT OUTER JOIN dvd_rental_app.customers c
+      ON re.customer_id = c.customer_id
+  WHERE title LIKE CONCAT('%', find, '%') -- find - подстрока, по которой ищется диск
+  ORDER BY d.dvd_id;
 END
 $$
 
@@ -310,12 +332,12 @@ DELIMITER ;
 -- Вывод данных для таблицы type
 --
 INSERT INTO type VALUES
-(1, 'film'),
-(2, 'game'),
-(3, 'music_album'),
-(4, 'tv_series'),
-(5, 'animated_film'),
-(6, 'animated_series');
+(1, 'Film'),
+(2, 'Videogame'),
+(3, 'Music album'),
+(4, 'TV series'),
+(5, 'Animated film'),
+(6, 'Animated series');
 
 -- 
 -- Вывод данных для таблицы dvd
