@@ -1,0 +1,7 @@
+.app {
+    height: 100vh;
+}
+
+.wrapper {
+    height: calc(100vh - 56px);
+}
