@@ -59,6 +59,18 @@ angular.module('app.mainPage', []).directive('appMainPage', [function () {
         });
     }
 
+    $scope.rentDvd = (dvd) => {
+        $http({
+            method: 'POST',
+            url: $scope.baseUrl + '/dvd-rental-app/rent/add',
+            data: {dvdId: dvd.id, clientTelNumber: dvd.rentClient},
+        }).then(() => {
+            $scope.loadData();
+        }).catch(() => {
+            alert("Renting error occurred, operation wasn't finished!");
+        });
+    }
+
     $scope.returnDvd = (dvd) => {
         const {rentId} = dvd;
         if (!rentId) return;
