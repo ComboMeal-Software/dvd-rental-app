@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio 2020 for MySQL, Версия 9.0.567.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 12.12.2021 14:33:28
+-- Дата скрипта: 12.12.2021 14:41:11
 -- Версия сервера: 8.0.26
 -- Версия клиента: 4.1
 --
@@ -157,13 +157,13 @@ DELIMITER ;
 -- Создать таблицу `rent`
 --
 CREATE TABLE rent (
-  offer_id int UNSIGNED NOT NULL AUTO_INCREMENT,
+  rent_id int UNSIGNED NOT NULL AUTO_INCREMENT,
   dvd_id int UNSIGNED NOT NULL,
   customer_tel varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   offer_date datetime DEFAULT CURRENT_TIMESTAMP,
   return_date datetime DEFAULT NULL,
-  PRIMARY KEY (offer_id),
-  UNIQUE INDEX offer_id (offer_id)
+  PRIMARY KEY (rent_id),
+  UNIQUE INDEX offer_id (rent_id)
 )
 ENGINE = INNODB,
 AUTO_INCREMENT = 22,
@@ -192,11 +192,11 @@ DELIMITER $$
 --
 CREATE
 DEFINER = 'root'@'localhost'
-PROCEDURE rent_return (IN in_offer_id int)
+PROCEDURE rent_return (IN in_rent_id int)
 BEGIN
   UPDATE dvd_rental_app.rent
   SET return_date = CURRENT_TIMESTAMP()
-  WHERE offer_id = in_offer_id;
+  WHERE rent_id = in_rent_id;
 END
 $$
 
@@ -234,9 +234,9 @@ BEGIN
       FROM dvd_rental_app.rent
       WHERE return_date IS NULL) re
       ON (d.dvd_id = re.dvd_id)
-  WHERE (r.offer_id IS NULL)
-  OR (r.offer_id IS NOT NULL
-  AND re.offer_id IS NULL)
+  WHERE (r.rent_id IS NULL)
+  OR (r.rent_id IS NOT NULL
+  AND re.rent_id IS NULL)
   ORDER BY d.dvd_id DESC
   LIMIT 5;
 END
@@ -273,7 +273,7 @@ BEGIN
     c.first_name,
     c.last_name,
     re.offer_date,
-    re.offer_id
+    re.rent_id
   FROM dvd_rental_app.dvd d
     JOIN dvd_rental_app.type t
       ON d.type_id = t.type_id

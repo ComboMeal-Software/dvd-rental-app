@@ -1,7 +1,7 @@
 ﻿-- /dvd
 -- /dvd/find
 -- Поиск дисков по подстроке
-SELECT d.dvd_id, d.title, d.production_year, t.type, c.tel_number, c.first_name, c.last_name, re.offer_date, re.offer_id
+SELECT d.dvd_id, d.title, d.production_year, t.type, c.tel_number, c.first_name, c.last_name, re.offer_date, re.rent_id
 FROM dvd_rental_app.dvd d JOIN dvd_rental_app.type t ON d.type_id = t.type_id LEFT OUTER JOIN (SELECT * FROM dvd_rental_app.rent WHERE return_date IS NULL) re ON (d.dvd_id = re.dvd_id) LEFT OUTER JOIN dvd_rental_app.customers c ON re.customer_tel = c.tel_number
 WHERE d.title LIKE '%find%' -- find - подстрока, по которой ищется диск
 ORDER BY d.dvd_id;
@@ -19,7 +19,7 @@ FROM dvd_rental_app.type;
 -- Возвращает N самых новых и свободных dvd для отображения при открытии главной страницы
 SELECT DISTINCT d.dvd_id, d.title, d.production_year, t.type
 FROM dvd_rental_app.dvd d JOIN dvd_rental_app.type t ON d.type_id = t.type_id LEFT OUTER JOIN dvd_rental_app.rent r on d.dvd_id = r.dvd_id LEFT OUTER JOIN (SELECT * FROM dvd_rental_app.rent WHERE return_date IS NULL) re ON (d.dvd_id = re.dvd_id)
-WHERE (r.offer_id IS NULL) OR (r.offer_id IS NOT NULL AND re.offer_id IS NULL)
+WHERE (r.rent_id IS NULL) OR (r.rent_id IS NOT NULL AND re.rent_id IS NULL)
 ORDER BY d.dvd_id DESC
 LIMIT 5;
 
@@ -90,6 +90,6 @@ VALUES(1, '');
 -- Поставить дату возврата на запись об аренде
 UPDATE dvd_rental_app.rent
 SET return_date = CURRENT_TIMESTAMP()
-WHERE offer_id = 3;
+WHERE rent_id = 3;
 
--- dvd_rental_app.rent_return(IN in_offer_id INT)
+-- dvd_rental_app.rent_return(IN in_rent_id INT)
