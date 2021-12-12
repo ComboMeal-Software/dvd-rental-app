@@ -4,7 +4,7 @@ angular.module('app.addDvdPage', []).directive('appAddDvdPage', [function () {
     return {
         templateUrl: 'modules/add-dvd-page/add-dvd-page.html'
     };
-}]).controller('AddDvdPageCtrl', ['$scope', '$http', '$location', '$timeout', function ($scope, $http, $location, $timeout) {
+}]).controller('AddDvdPageCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
     $scope.showLoader = true;
     $scope.showLoadError = false;
 
@@ -12,47 +12,23 @@ angular.module('app.addDvdPage', []).directive('appAddDvdPage', [function () {
     $scope.dvd = {};
 
     $scope.loadCategories = () => {
-        $timeout(function () {
-            $scope.categoriesData = [
-                {
-                    "id": 1,
-                    "type": 'Film'
-                },
-                {
-                    "id": 2,
-                    "type": 'Videogame'
-                },
-                {
-                    "id": 3,
-                    "type": 'Music album'
-                }, {
-                    "id": 4,
-                    "type": 'TV series'
-                }, {
-                    "id": 5,
-                    "type": 'Animated film'
-                },
-                {
-                    "id": 6,
-                    "type": 'Animated series'
-                },
-            ];
-
-            $scope.showLoader = false;
-
-            if (!$scope.categoriesData?.length) {
-                $scope.showLoadError = true;
-                return;
-            }
-
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8081/dvd-rental-app/dvd/types',
+        }).then(response => {
+            $scope.categoriesData = response;
             $scope.dvd.typeId = $scope.categoriesData[0].id;
-        }, 1000);
+        }).catch(() => {
+            $scope.showLoadError = true;
+        }).finally(() => {
+            $scope.showLoader = false;
+        });
     }
 
     $scope.submitForm = () => {
         $http({
             method: 'POST',
-            url: 'http://localhost',
+            url: 'http://localhost/dvd-rental-app/dvd/create',
             data: $scope.dvd,
         }).then(response => {
             alert('Success!');
