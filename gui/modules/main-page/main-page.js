@@ -59,6 +59,19 @@ angular.module('app.mainPage', []).directive('appMainPage', [function () {
         });
     }
 
+    $scope.returnDvd = (dvd) => {
+        const {rentId} = dvd;
+        if (!rentId) return;
+
+        $http({
+            method: 'POST',
+            url: $scope.baseUrl + '/dvd-rental-app/rent/return',
+            data: {rentId},
+        }).then(() => {
+            dvd.rentId = null;
+        });
+    }
+
     $scope.isNull = (el) => !el || el === 'null';
 
     $scope.loadData();
