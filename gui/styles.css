@@ -5,3 +5,8 @@
 .wrapper {
     height: calc(100vh - 56px);
 }
+
+.scrollable-container {
+    height: calc(100vh - 150px);
+    overflow-y: scroll;
+}

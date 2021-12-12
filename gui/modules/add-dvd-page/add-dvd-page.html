@@ -9,7 +9,7 @@
         Form initialization error occurred! Please, try to reopen this page.
     </div>
 
-    <form ng-show="!showLoader && !showLoadError" ng-submit="submitForm()" class="row">
+    <form ng-show="!showLoader && !showLoadError" name='dvdForm' ng-submit="submitForm()" class="row">
         <label class="form-label col-12 mb-3">
             DVD title
             <input type="text" class="form-control" ng-model="dvd.title" required>
@@ -28,7 +28,7 @@
         </label>
 
         <div class="offset-10 col-2">
-            <button type="submit" class="btn btn-primary w-100">Add</button>
+            <button ng-disabled="dvdForm.$invalid" type="submit" class="btn btn-primary w-100">Add</button>
         </div>
     </form>
 </div>
