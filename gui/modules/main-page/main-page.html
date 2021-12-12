@@ -44,25 +44,26 @@
         </div>
     </div>
 
-    <div ng-show="mode === 'dvd'" class="row-cols-3">
-        DVD
+    <div ng-show="mode === 'dvd'" class="row row-cols-3">
         <div ng-repeat="dvd in dvdData" class="col">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">{{ dvd.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Release date: {{ dvd.productionYear }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Release year: {{ dvd.productionYear }}</h6>
+                    <button class="btn btn-primary">Rent</button>
+                    <button class="btn btn-primary">Return</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div ng-show="mode === 'client'" class="row-cols-3">
+    <div ng-show="mode === 'client'" class="row row-cols-3">
         Clients
         <div ng-repeat="client in clientData" class="col">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">{{ client.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Release date: {{ client.productionYear }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Release year: {{ client.productionYear }}</h6>
                 </div>
             </div>
         </div>
