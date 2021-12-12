@@ -107,7 +107,7 @@ BEGIN
   UPDATE dvd_rental_app.customers
   SET first_name = in_first_name,
       last_name = in_last_name,
-      birthdate = STR_TO_DATE(in_birthdate, '%d.%m.%Y')
+      birthdate = STR_TO_DATE(in_birthdate, '%Y-%m-%d')
   WHERE tel_number = in_tel;
 END
 $$
@@ -147,7 +147,7 @@ DEFINER = 'root'@'localhost'
 PROCEDURE client_create (IN in_first_name varchar(255), IN in_last_name varchar(255), IN in_tel varchar(255), IN in_birthdate varchar(255))
 BEGIN
   INSERT INTO dvd_rental_app.customers (first_name, last_name, tel_number, birthdate)
-    VALUES (in_first_name, in_last_name, in_tel, STR_TO_DATE(in_birthdate, '%d.%m.%Y'));
+    VALUES (in_first_name, in_last_name, in_tel, STR_TO_DATE(in_birthdate, '%Y-%m-%d'));
 END
 $$
 
@@ -377,7 +377,7 @@ INSERT INTO customers VALUES
 (1, 'Анжела', 'Большакова', '2021-10-07 23:57:40', '+79048478834', '2000-03-01'),
 (2, 'Мария', 'Канюшкова', '2021-10-07 23:57:40', '+79387478289', '2001-05-18'),
 (3, 'Дмитрий', 'Воробьёв', '2021-10-07 23:57:40', '+79823785873', '2003-07-28'),
-(4, 'Елизавета', 'Киско', '2021-10-07 23:57:40', '+79823658833\r\n', '1998-01-21'),
+(4, 'Елизавета', 'Киско', '2021-10-07 23:57:40', '+79823658833', '1998-01-21'),
 (5, 'Денис', 'Призраков', '2021-10-07 23:57:40', '+79837528085', '1999-09-08');
 
 -- 
