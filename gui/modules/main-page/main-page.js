@@ -12,13 +12,24 @@ angular.module('app.mainPage', []).directive('appMainPage', [function () {
 
     $scope.showLoader = false;
     $scope.showLoadError = false;
+    $scope.showLoadError = false;
 
     $scope.dvdData = [];
-    $scope.clientData = [];
+    $scope.clientData = null;
+
+    $scope.loadData = () => {
+        $scope.showLoader = true;
+
+        if ($scope.mode === 'dvd') {
+            $scope.loadDvds();
+        } else {
+            $scope.loadClient();
+        }
+
+        $scope.showLoader = false;
+    }
 
     $scope.loadDvds = () => {
-        $scope.takenOnly = !$scope.takenOnly;
-        $scope.showLoader = true;
         $scope.dvdData = [];
 
         $http({
@@ -29,10 +40,26 @@ angular.module('app.mainPage', []).directive('appMainPage', [function () {
             $scope.dvdData = response.data;
         }).catch(() => {
             $scope.showLoadError = true;
-        }).finally(() => {
-            $scope.showLoader = false;
         });
     }
 
-    $scope.loadDvds();
+    $scope.loadClient = () => {
+        if (!$scope.searchText) return;
+
+        $scope.clientData = null;
+
+        $http({
+            method: 'GET',
+            url: $scope.baseUrl + '/dvd-rental-app/client/find',
+            params: {telNumber: encodeURI($scope.searchText)},
+        }).then(response => {
+            $scope.clientData = response.data.data;
+        }).catch(() => {
+            $scope.showLoadError = true;
+        });
+    }
+
+    $scope.isNull = (el) => !el || el === 'null';
+
+    $scope.loadData();
 }]);

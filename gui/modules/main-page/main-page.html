@@ -1,32 +1,29 @@
 <div ng-controller="MainPageCtrl">
-    <form ng-submit="loadDvds()" class="w-100 pb-4">
+    <form ng-submit="loadData()" class="w-100 pb-4">
         <div class="input-group">
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Search by DVD name or client phone number"
-                aria-label="Search"
-                ng-model="searchText"
+            <input type="text"
+                   class="form-control"
+                   placeholder="Search by DVD name or client phone number"
+                   aria-label="Search"
+                   ng-model="searchText"
             >
 
             <label ng-class="{'btn-dark': mode === 'dvd', 'btn-outline-dark': mode !== 'dvd'}" class="btn">
-                <input
-                    ng-model="mode"
-                    type="radio"
-                    class="btn-check"
-                    name="mode"
-                    value="dvd"
+                <input ng-model="mode"
+                       type="radio"
+                       class="btn-check"
+                       name="mode"
+                       value="dvd"
                 >
                 DVD
             </label>
 
             <label ng-class="{'btn-dark': mode === 'client', 'btn-outline-dark': mode !== 'client'}" class="btn">
-                <input
-                    ng-model="mode"
-                    type="radio"
-                    class="btn-check"
-                    name="mode"
-                    value="client"
+                <input ng-model="mode"
+                       type="radio"
+                       class="btn-check"
+                       name="mode"
+                       value="client"
                 >
                 Client
             </label>
@@ -50,27 +47,42 @@
     </div>
 
     <div ng-show="mode === 'dvd'" class="row row-cols-3">
-        <div ng-repeat="dvd in dvdData" class="col">
+        <div ng-repeat="dvd in dvdData" class="col mb-3">
             <div class="card shadow-sm">
                 <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">{{ dvd.type }}, {{ dvd.productionYear }}</h6>
                     <h5 class="card-title">{{ dvd.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Release year: {{ dvd.productionYear }}</h6>
-                    <button class="btn btn-primary">Rent</button>
-                    <button class="btn btn-primary">Return</button>
+
+                    <button ng-show="!dvd.rentId" class="btn btn-secondary">Rent</button>
+
+                    <div ng-show="!!dvd.rentId">
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Rented by
+                            {{ (isNull(dvd.firstName) || isNull(dvd.lastName)) ? 'unknown customer' : dvd.firstName + ' ' + dvd.lastName
+                            }},
+                            {{ isNull(dvd.telNumber) ? 'no phone found' : dvd.telNumber}}
+                        </h6>
+                        <button class="btn btn-primary">Return</button>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 
-    <div ng-show="mode === 'client'" class="row row-cols-3">
-        Clients
-        <div ng-repeat="client in clientData" class="col">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ client.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Release year: {{ client.productionYear }}</h6>
-                </div>
+    <div ng-show="mode === 'client'">
+        <div ng-show="!!clientData" class="col card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ clientData.firstName }} {{ clientData.lastName }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ clientData.telNumber }}</h6>
+                <p class="card-text">
+                    <strong>Birthday:</strong> {{ clientData.birthDate | date }}<br />
+                    <strong>Registration date:</strong> {{ clientData.registrationDate }}
+                </p>
             </div>
+        </div>
+        <div ng-show="!clientData" class="pv-3">
+            Client not found.
         </div>
     </div>
 </div>
