@@ -1,20 +1,29 @@
 <div ng-controller="AddDvdPageCtrl">
-    <form class="row">
+    <div ng-show="showLoader" class="pv-3">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div ng-show="showLoadError" class="pv-3">
+        Form initialization error occurred! Please, try to reopen this page.
+    </div>
+
+    <form ng-show="!showLoader && !showLoadError" ng-submit="submitForm()" class="row">
         <label class="form-label col-12 mb-3">
             DVD title
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" ng-model="dvd.title" required>
         </label>
 
         <label class="form-label col-3 mb-3">
             Production year
-            <input type="number" class="form-control">
+            <input type="number" class="form-control" ng-model="dvd.productionYear" required>
         </label>
 
-        <label for="country" class="form-label col-9 mb-4">
+        <label class="form-label col-9 mb-4">
             Category
-            <select class="form-select" id="country" required="">
-                <option value="">Choose...</option>
-                <option value="category.id" ng-repeat="category in categoriesData">{{ category.name }}</option>
+            <select class="form-select" ng-model="dvd.typeId">
+                <option ng-repeat="category in categoriesData" ng-value="category.id">{{ category.name }}</option>
             </select>
         </label>
 
