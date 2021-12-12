@@ -51,7 +51,7 @@ VALUES('title', 2000, 1);
 -- /client/create
 -- Создает клиента
 INSERT INTO dvd_rental_app.customers (first_name, last_name, tel_number, birthdate)
-VALUES('first_name', 'last_name', '+78005553535', STR_TO_DATE('01.5.2013','%d.%m.%Y'));
+VALUES('first_name', 'last_name', '+78005553535', STR_TO_DATE('01.5.2013','%Y-%m-%d'));
 
 -- dvd_rental_app.client_create(IN in_first_name VARCHAR(255), IN in_last_name VARCHAR(255), IN in_tel VARCHAR(255), IN in_birthdate VARCHAR(255))
 
@@ -66,7 +66,7 @@ WHERE customers.tel_number LIKE '%find%'; -- find - подстрока, по к�
 -- /client/update
 -- Принимает данные, среди которых есть номер телефона, и устанавливает их соответствующему клиенту
 UPDATE dvd_rental_app.customers
-SET first_name = 'f', last_name = 'l', birthdate = STR_TO_DATE('01.5.2013','%d.%m.%Y')
+SET first_name = 'f', last_name = 'l', birthdate = STR_TO_DATE('01.5.2013','%Y-%m-%d')
 WHERE tel_number = '88005553535';
 
 -- dvd_rental_app.client_update(IN in_first_name VARCHAR(255), IN in_last_name VARCHAR(255), IN in_birthdate VARCHAR(255), IN in_tel VARCHAR(255))

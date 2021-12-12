@@ -1,5 +1,5 @@
     <%@ page import="jakarta.servlet.annotation.WebServlet,jakarta.servlet.http.HttpServlet,jakarta.servlet.http.HttpServletRequest,
-jakarta.servlet.http.HttpServletResponse,java.io.IOException,java.io.PrintWriter,java.sql.*,com.fasterxml.jackson.databind.ObjectMapper" %>
+jakarta.servlet.http.HttpServletResponse,java.io.PrintWriter,java.sql.*" %>
 
             <%
     String telNumber = request.getParameter("telNumber");
