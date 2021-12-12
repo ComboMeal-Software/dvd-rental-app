@@ -2,9 +2,6 @@
 jakarta.servlet.http.HttpServletResponse,java.io.IOException,java.io.PrintWriter,java.sql.*,com.fasterxml.jackson.databind.ObjectMapper" %>
 
 <%
-    String title = request.getParameter("title");
-    Long productionYear = Long.parseLong(request.getParameter("productionYear"));
-    Long typeId = Long.parseLong(request.getParameter("typeId"));
     PrintWriter writer = response.getWriter();
     response.setContentType("application/json");
 
@@ -12,12 +9,26 @@ jakarta.servlet.http.HttpServletResponse,java.io.IOException,java.io.PrintWriter
         String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
 
         try (Connection connection = DriverManager.getConnection(dbUrl, "root", "root")) {
-            PreparedStatement preparedStatement = connection.prepareStatement("CALL dvd_create(?, ?, ?);");
-            preparedStatement.setString(1, title);
-            preparedStatement.setLong(2, productionYear);
-            preparedStatement.setLong(3, typeId);
+            PreparedStatement preparedStatement = connection.prepareStatement("CALL dvd_types();");
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            preparedStatement.executeQuery();
+            writer.println("[");
+            boolean isFirst = true;
+
+            while (resultSet.next()) {
+                if (!isFirst) {
+                    writer.println(",");
+                }
+                Long id = resultSet.getLong(1);
+                String type = resultSet.getString(2);
+
+                writer.print(String.format("  {\n     \"id\": %d,\n       \"type\": \"%s\"\n  }",
+                        id, type));
+                if (isFirst) isFirst = false;
+            }
+
+            writer.println();
+            writer.println("]");
         }
     } catch (Exception ex) {
         writer.println(ex);
