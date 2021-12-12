@@ -11,33 +11,29 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 
-@WebServlet(name = "ClientCreateServlet", value = "/client/create")
-public class ClientCreateServlet extends HttpServlet {
+@WebServlet(name = "RentAddServlet", value = "/rent/add")
+public class RentAddServlet extends HttpServlet {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    private static void queryMessages(Connection connection, String firstName, String lastName, String telNumber,
-                                      String birthDate)
+    private static void queryMessages(Connection connection, Long dvdId, String clientTelNumber)
             throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("CALL client_create(?, ?, ?, ?);");
-        preparedStatement.setString(1, firstName);
-        preparedStatement.setString(2, lastName);
-        preparedStatement.setString(3, telNumber);
-        preparedStatement.setString(4, birthDate);
+        PreparedStatement preparedStatement = connection.prepareStatement("CALL rent_add(?, ?);");
+        preparedStatement.setLong(1, dvdId);
+        preparedStatement.setString(2, clientTelNumber);
 
         preparedStatement.executeQuery();
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        ClientDto clientDto = mapper.readValue(request.getInputStream(), ClientDto.class);
+        RentAddDto rentAddDto = mapper.readValue(request.getInputStream(), RentAddDto.class);
 
         try {
             String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
 
             try (Connection connection = DriverManager.getConnection(dbUrl, USERNAME, PASSWORD)) {
-                queryMessages(connection, clientDto.getFirstName(), clientDto.getLastName(), clientDto.getTelNumber(),
-                        clientDto.getBirthDate());
+                queryMessages(connection, rentAddDto.getDvdId(), rentAddDto.getClientTelNumber());
             }
         } catch (Exception ex) {
             writer.println(ex);
