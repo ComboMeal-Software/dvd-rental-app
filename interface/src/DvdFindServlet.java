@@ -41,10 +41,24 @@ public class DvdFindServlet extends HttpServlet {
                     Long id = resultSet.getLong(1);
                     String title = resultSet.getString(2);
                     Long productionYear = resultSet.getLong(3);
-                    Long typeId = resultSet.getLong(4);
+                    String type = resultSet.getString(4);
+                    String telNumber = resultSet.getString(5);
+                    String firstName = resultSet.getString(6);
+                    String lastName = resultSet.getString(7);
+                    String offerDt = resultSet.getString(8);
+                    Long rentId = resultSet.getLong(9);
 
-                    writer.println(String.format("{\n  \"id\": %d,\n \"title\": \"%s\",\n \"productionYear\": %d,\n \"typeId\": %d\n}",
-                            id, title, productionYear, typeId));
+                    writer.println(String.format("{\n  \"id\": %d,\n" +
+                                    " \"title\": \"%s\",\n" +
+                                    " \"productionYear\": %d,\n" +
+                                    " \"type\": \"%s\",\n" +
+                                    " \"telNumber\": \"%s\",\n" +
+                                    " \"firstName\": \"%s\",\n" +
+                                    " \"lastName\": \"%s\",\n" +
+                                    " \"offerDt\": \"%s\",\n" +
+                                    " \"rentId\": %d\n" +
+                                    "}",
+                            id, title, productionYear, type, telNumber, firstName, lastName, offerDt, rentId));
                     if (isFirst) isFirst = false;
                 }
 
