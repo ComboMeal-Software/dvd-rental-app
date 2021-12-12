@@ -4,43 +4,35 @@ angular.module('app.mainPage', []).directive('appMainPage', [function () {
     return {
         templateUrl: 'modules/main-page/main-page.html'
     };
-}]).controller('MainPageCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+}]).controller('MainPageCtrl', ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+    $scope.baseUrl = new $window.URL($location.absUrl()).origin;
+
     $scope.mode = 'dvd';
+    $scope.searchText = '';
+
     $scope.showLoader = false;
+    $scope.showLoadError = false;
 
     $scope.dvdData = [];
     $scope.clientData = [];
 
-    $scope.updateDvds = async () => {
+    $scope.loadDvds = () => {
         $scope.takenOnly = !$scope.takenOnly;
         $scope.showLoader = true;
         $scope.dvdData = [];
 
-        $timeout(function () {
+        $http({
+            method: 'GET',
+            url: $scope.baseUrl + '/dvd-rental-app/dvd/find',
+            params: {name: $scope.searchText},
+        }).then(response => {
+            $scope.dvdData = response.data;
+        }).catch(() => {
+            $scope.showLoadError = true;
+        }).finally(() => {
             $scope.showLoader = false;
-
-            $scope.dvdData = [
-                {
-                    "id": 9,
-                    "title": "Prince of Persia: The Sands of Time",
-                    "productionYear": 2010,
-                    "typeId": 2
-                },
-                {
-                    "id": 21,
-                    "title": "Prince of Persia",
-                    "productionYear": 2008,
-                    "typeId": 2
-                }
-            ]
-        }, 1000);
-
-        // $http.get("http://localhost:8081/lw5/main-json.jsp" + ($scope.takenOnly ? "?taken_only=true" : ""))
-        //     .then(response => {
-        //         $scope.showLoader = false;
-        //         $scope.dvdData = response.data;
-        //     });
+        });
     }
 
-    $scope.updateDvds();
+    $scope.loadDvds();
 }]);

@@ -4,7 +4,9 @@ angular.module('app.addDvdPage', []).directive('appAddDvdPage', [function () {
     return {
         templateUrl: 'modules/add-dvd-page/add-dvd-page.html'
     };
-}]).controller('AddDvdPageCtrl', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+}]).controller('AddDvdPageCtrl', ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+    $scope.baseUrl = new $window.URL($location.absUrl()).origin;
+
     $scope.showLoader = true;
     $scope.showLoadError = false;
 
@@ -14,9 +16,9 @@ angular.module('app.addDvdPage', []).directive('appAddDvdPage', [function () {
     $scope.loadCategories = () => {
         $http({
             method: 'GET',
-            url: 'http://localhost:8081/dvd-rental-app/dvd/types',
+            url: $scope.baseUrl + '/dvd-rental-app/dvd/types',
         }).then(response => {
-            $scope.categoriesData = response;
+            $scope.categoriesData = response.data;
             $scope.dvd.typeId = $scope.categoriesData[0].id;
         }).catch(() => {
             $scope.showLoadError = true;
@@ -28,12 +30,12 @@ angular.module('app.addDvdPage', []).directive('appAddDvdPage', [function () {
     $scope.submitForm = () => {
         $http({
             method: 'POST',
-            url: 'http://localhost/dvd-rental-app/dvd/create',
+            url: $scope.baseUrl + '/dvd-rental-app/dvd/create',
             data: $scope.dvd,
-        }).then(response => {
+        }).then(() => {
             alert('Success!');
             $location.path("main");
-        }).catch(response => {
+        }).catch(() => {
             alert('Error was occurred!');
         });
     };

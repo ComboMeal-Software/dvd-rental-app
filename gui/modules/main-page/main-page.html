@@ -1,11 +1,12 @@
 <div ng-controller="MainPageCtrl">
-    <form class="w-100 pb-4">
+    <form ng-submit="loadDvds()" class="w-100 pb-4">
         <div class="input-group">
             <input
                 type="text"
                 class="form-control"
                 placeholder="Search by DVD name or client phone number"
-               aria-label="Search"
+                aria-label="Search"
+                ng-model="searchText"
             >
 
             <label ng-class="{'btn-dark': mode === 'dvd', 'btn-outline-dark': mode !== 'dvd'}" class="btn">
@@ -30,7 +31,7 @@
                 Client
             </label>
 
-            <button type="button" class="btn btn-primary">
+            <button type="submit" class="btn btn-primary">
                 <svg width="24" height="24" fill="none" stroke="#ffffff" stroke-width="2">
                     <use href="assets/icons/feather-icons.svg#search"/>
                 </svg>
@@ -42,6 +43,10 @@
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
+    </div>
+
+    <div ng-show="showLoadError" class="pv-3">
+        Error occurred! Please, try to reopen this page.
     </div>
 
     <div ng-show="mode === 'dvd'" class="row row-cols-3">
