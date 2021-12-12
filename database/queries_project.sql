@@ -1,8 +1,8 @@
 ﻿-- /dvd
 -- /dvd/find
 -- Поиск дисков по подстроке
-SELECT d.dvd_id, d.title, d.production_year, t.type, c.tel_number, c.first_name, c.last_name, re.offer_date
-FROM dvd_rental_app.dvd d JOIN dvd_rental_app.type t ON d.type_id = t.type_id LEFT OUTER JOIN (SELECT * FROM dvd_rental_app.rent WHERE return_date IS NULL) re ON (d.dvd_id = re.dvd_id) LEFT OUTER JOIN dvd_rental_app.customers c ON re.customer_id = c.customer_id
+SELECT d.dvd_id, d.title, d.production_year, t.type, c.tel_number, c.first_name, c.last_name, re.offer_date, re.offer_id
+FROM dvd_rental_app.dvd d JOIN dvd_rental_app.type t ON d.type_id = t.type_id LEFT OUTER JOIN (SELECT * FROM dvd_rental_app.rent WHERE return_date IS NULL) re ON (d.dvd_id = re.dvd_id) LEFT OUTER JOIN dvd_rental_app.customers c ON re.customer_tel = c.tel_number
 WHERE d.title LIKE '%find%' -- find - подстрока, по которой ищется диск
 ORDER BY d.dvd_id;
 
@@ -51,7 +51,7 @@ VALUES('title', 2000, 1);
 -- /client/create
 -- Создает клиента
 INSERT INTO dvd_rental_app.customers (first_name, last_name, tel_number, birthdate)
-VALUES('first_name', 'last_name', '+78005553535', STR_TO_DATE('01.5.2013','%Y-%m-%d'));
+VALUES('first_name', 'last_name', '+78005553535', STR_TO_DATE('01.5.2013','%d.%m.%Y'));
 
 -- dvd_rental_app.client_create(IN in_first_name VARCHAR(255), IN in_last_name VARCHAR(255), IN in_tel VARCHAR(255), IN in_birthdate VARCHAR(255))
 
@@ -66,7 +66,7 @@ WHERE customers.tel_number LIKE '%find%'; -- find - подстрока, по к�
 -- /client/update
 -- Принимает данные, среди которых есть номер телефона, и устанавливает их соответствующему клиенту
 UPDATE dvd_rental_app.customers
-SET first_name = 'f', last_name = 'l', birthdate = STR_TO_DATE('01.5.2013','%Y-%m-%d')
+SET first_name = 'f', last_name = 'l', birthdate = STR_TO_DATE('01.5.2013','%d.%m.%Y')
 WHERE tel_number = '88005553535';
 
 -- dvd_rental_app.client_update(IN in_first_name VARCHAR(255), IN in_last_name VARCHAR(255), IN in_birthdate VARCHAR(255), IN in_tel VARCHAR(255))
@@ -81,10 +81,10 @@ WHERE tel_number = '88005553535';
 -- /rent
 -- /rent/add
 -- Создать новую запись об аренде
-INSERT INTO dvd_rental_app.rent (dvd_id, customer_id)
-VALUES(1, 1);
+INSERT INTO dvd_rental_app.rent (dvd_id, customer_tel)
+VALUES(1, '');
 
--- dvd_rental_app.rent_add(IN in_dvd_id INT, IN in_customer_id INT)
+-- dvd_rental_app.rent_add(IN in_dvd_id INT, IN in_customer_tel VARCHAR(20))
 
 -- /rent/return
 -- Поставить дату возврата на запись об аренде

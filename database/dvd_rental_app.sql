@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio 2020 for MySQL, Версия 9.0.567.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 11.12.2021 18:42:56
+-- Дата скрипта: 12.12.2021 14:33:28
 -- Версия сервера: 8.0.26
 -- Версия клиента: 4.1
 --
@@ -107,7 +107,7 @@ BEGIN
   UPDATE dvd_rental_app.customers
   SET first_name = in_first_name,
       last_name = in_last_name,
-      birthdate = STR_TO_DATE(in_birthdate, '%Y-%m-%d')
+      birthdate = STR_TO_DATE(in_birthdate, '%d.%m.%Y')
   WHERE tel_number = in_tel;
 END
 $$
@@ -147,7 +147,7 @@ DEFINER = 'root'@'localhost'
 PROCEDURE client_create (IN in_first_name varchar(255), IN in_last_name varchar(255), IN in_tel varchar(255), IN in_birthdate varchar(255))
 BEGIN
   INSERT INTO dvd_rental_app.customers (first_name, last_name, tel_number, birthdate)
-    VALUES (in_first_name, in_last_name, in_tel, STR_TO_DATE(in_birthdate, '%Y-%m-%d'));
+    VALUES (in_first_name, in_last_name, in_tel, STR_TO_DATE(in_birthdate, '%d.%m.%Y'));
 END
 $$
 
@@ -158,15 +158,15 @@ DELIMITER ;
 --
 CREATE TABLE rent (
   offer_id int UNSIGNED NOT NULL AUTO_INCREMENT,
-  dvd_id int UNSIGNED DEFAULT NULL,
-  customer_id int UNSIGNED DEFAULT NULL,
+  dvd_id int UNSIGNED NOT NULL,
+  customer_tel varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   offer_date datetime DEFAULT CURRENT_TIMESTAMP,
   return_date datetime DEFAULT NULL,
   PRIMARY KEY (offer_id),
   UNIQUE INDEX offer_id (offer_id)
 )
 ENGINE = INNODB,
-AUTO_INCREMENT = 14,
+AUTO_INCREMENT = 22,
 AVG_ROW_LENGTH = 5461,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
@@ -175,15 +175,15 @@ COLLATE utf8_general_ci;
 -- Создать внешний ключ
 --
 ALTER TABLE rent
-ADD CONSTRAINT FK_offer_customer_id FOREIGN KEY (customer_id)
-REFERENCES customers (customer_id);
+ADD CONSTRAINT FK_offer_dvd_id FOREIGN KEY (dvd_id)
+REFERENCES dvd (dvd_id);
 
 --
 -- Создать внешний ключ
 --
 ALTER TABLE rent
-ADD CONSTRAINT FK_offer_dvd_id FOREIGN KEY (dvd_id)
-REFERENCES dvd (dvd_id);
+ADD CONSTRAINT FK_rent_customer_tel FOREIGN KEY (customer_tel)
+REFERENCES customers (tel_number);
 
 DELIMITER $$
 
@@ -205,10 +205,10 @@ $$
 --
 CREATE
 DEFINER = 'root'@'localhost'
-PROCEDURE rent_add (IN in_dvd_id int, IN in_customer_id int)
+PROCEDURE rent_add (IN in_dvd_id int, IN in_customer_tel varchar(20))
 BEGIN
-  INSERT INTO dvd_rental_app.rent (dvd_id, customer_id)
-    VALUES (in_dvd_id, in_customer_id);
+  INSERT INTO dvd_rental_app.rent (dvd_id, customer_tel)
+    VALUES (in_dvd_id, in_customer_tel);
 END
 $$
 
@@ -272,7 +272,8 @@ BEGIN
     c.tel_number,
     c.first_name,
     c.last_name,
-    re.offer_date
+    re.offer_date,
+    re.offer_id
   FROM dvd_rental_app.dvd d
     JOIN dvd_rental_app.type t
       ON d.type_id = t.type_id
@@ -282,7 +283,7 @@ BEGIN
       WHERE return_date IS NULL) re
       ON (d.dvd_id = re.dvd_id)
     LEFT OUTER JOIN dvd_rental_app.customers c
-      ON re.customer_id = c.customer_id
+      ON re.customer_tel = c.tel_number
   WHERE title LIKE CONCAT('%', find, '%') -- find - подстрока, по которой ищется диск
   ORDER BY d.dvd_id;
 END
@@ -376,23 +377,21 @@ INSERT INTO customers VALUES
 (1, 'Анжела', 'Большакова', '2021-10-07 23:57:40', '+79048478834', '2000-03-01'),
 (2, 'Мария', 'Канюшкова', '2021-10-07 23:57:40', '+79387478289', '2001-05-18'),
 (3, 'Дмитрий', 'Воробьёв', '2021-10-07 23:57:40', '+79823785873', '2003-07-28'),
-(4, 'Елизавета', 'Киско', '2021-10-07 23:57:40', '+79823658833', '1998-01-21'),
+(4, 'Елизавета', 'Киско', '2021-10-07 23:57:40', '+79823658833\r\n', '1998-01-21'),
 (5, 'Денис', 'Призраков', '2021-10-07 23:57:40', '+79837528085', '1999-09-08');
 
 -- 
 -- Вывод данных для таблицы rent
 --
 INSERT INTO rent VALUES
-(1, 1, 3, '2016-07-05 00:00:00', '2017-01-01 00:00:00'),
-(2, 7, 5, '2015-04-19 00:00:00', NULL),
-(3, 6, 1, '2021-10-07 23:57:40', '2021-12-10 20:16:00'),
-(5, 25, 3, '2021-12-10 18:51:37', '2021-12-10 18:37:30'),
-(6, 25, 4, '2021-12-10 18:51:37', NULL),
-(7, 21, 2, '2021-12-10 19:06:12', '2021-12-10 18:37:30'),
-(8, 21, 1, '2021-12-10 19:06:12', '2021-12-10 18:37:30'),
-(9, 21, 1, '2021-12-10 19:10:34', NULL),
-(11, 25, 2, '2021-12-10 19:28:52', '2021-12-10 18:37:30'),
-(12, 1, 1, '2021-12-10 20:15:51', NULL);
+(14, 1, '+79048478834', '2021-12-12 14:25:08', NULL),
+(15, 25, '+79823658833\r\n', '2021-12-12 14:25:08', '2021-12-12 19:25:08'),
+(16, 21, '+79837528085', '2021-12-12 14:25:39', '2021-12-12 19:25:08'),
+(17, 25, '+79823658833\r\n', '2021-12-12 14:25:53', NULL),
+(18, 21, '+79837528085', '2021-12-12 14:26:11', '2021-12-12 19:25:08'),
+(19, 21, '+79387478289', '2021-12-12 14:26:11', NULL),
+(20, 15, '+79823785873', '2021-12-12 14:26:31', '2021-12-12 19:25:08'),
+(21, 7, '+79387478289', '2021-12-12 14:26:42', NULL);
 
 -- 
 -- Восстановить предыдущий режим SQL (SQL mode)
