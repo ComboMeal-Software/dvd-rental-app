@@ -1,0 +1,1 @@
+javac -cp ".;..\..\WEB-INF\lib\jackson-annotations-2.13.0-rc1.jar;..\..\WEB-INF\lib\jackson-core-2.13.0-rc1.jar;..\..\WEB-INF\lib\jackson-databind-2.13.0-rc1.jar;..\..\WEB-INF\lib\servlet-api.jar;" -d "..\..\WEB-INF\classes" *.java
