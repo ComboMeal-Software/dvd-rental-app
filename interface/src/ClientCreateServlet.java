@@ -32,17 +32,13 @@ public class ClientCreateServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         ClientDto clientDto = mapper.readValue(request.getInputStream(), ClientDto.class);
 
-        try {
-            String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
+        String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
 
-            try (Connection connection = DriverManager.getConnection(dbUrl, USERNAME, PASSWORD)) {
-                queryMessages(connection, clientDto.getFirstName(), clientDto.getLastName(), clientDto.getTelNumber(),
-                        clientDto.getBirthDate());
-            }
-        } catch (Exception ex) {
-            writer.println(ex);
-        } finally {
-            writer.close();
+        try (Connection connection = DriverManager.getConnection(dbUrl, USERNAME, PASSWORD)) {
+            queryMessages(connection, clientDto.getFirstName(), clientDto.getLastName(), clientDto.getTelNumber(),
+                    clientDto.getBirthDate());
+        } catch (SQLException e) {
+            response.sendError(500);
         }
     }
 }

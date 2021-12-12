@@ -13,10 +13,9 @@ public class ClientDto {
     public ClientDto() {
     }
 
-    public ClientDto(String firstName, String lastName, String registrationDate, String telNumber, String birthDate) {
+    public ClientDto(String firstName, String lastName, String telNumber, String birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.registrationDate = registrationDate;
         this.telNumber = telNumber;
         this.birthDate = birthDate;
     }

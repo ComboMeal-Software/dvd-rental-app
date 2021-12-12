@@ -12,11 +12,11 @@ import java.io.PrintWriter;
 import java.sql.*;
 
 @WebServlet(name = "RentReturnServlet", value = "/rent/return")
-public class RentAddServlet extends HttpServlet {
+public class RentReturnServlet extends HttpServlet {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    private static void queryMessages(Connection connection, Long rentId, String clientTelNumber)
+    private static void queryMessages(Connection connection, Long rentId)
             throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("CALL rent_return(?);");
         preparedStatement.setLong(1, rentId);
@@ -28,16 +28,12 @@ public class RentAddServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         RentReturnDto rentReturnDto = mapper.readValue(request.getInputStream(), RentReturnDto.class);
 
-        try {
-            String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
+        String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
 
-            try (Connection connection = DriverManager.getConnection(dbUrl, USERNAME, PASSWORD)) {
-                queryMessages(connection, rentReturnDto.getRentId());
-            }
-        } catch (Exception ex) {
-            writer.println(ex);
-        } finally {
-            writer.close();
+        try (Connection connection = DriverManager.getConnection(dbUrl, USERNAME, PASSWORD)) {
+            queryMessages(connection, rentReturnDto.getRentId());
+        } catch (SQLException e) {
+            response.sendError(500);
         }
     }
 }

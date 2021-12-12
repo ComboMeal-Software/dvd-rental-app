@@ -1,13 +1,13 @@
 package ml.thomasmiles.dvdrentalapp;
 
-public class RentAddDto {
+public class RentReturnDto {
 
     private Long rentId;
 
-    public RentAddDto() {
+    public RentReturnDto() {
     }
 
-    public RentAddDto(Long rentId) {
+    public RentReturnDto(Long rentId) {
         this.rentId = rentId;
     }
 

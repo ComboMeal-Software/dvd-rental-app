@@ -16,10 +16,10 @@ public class DvdCreateServlet extends HttpServlet {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
-    private static void queryMessages(Connection connection, String name, Long productionYear, Long typeId)
+    private static void queryMessages(Connection connection, String title, Long productionYear, Long typeId)
             throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("CALL dvd_create(?, ?, ?);");
-        preparedStatement.setString(1, name);
+        preparedStatement.setString(1, title);
         preparedStatement.setLong(2, productionYear);
         preparedStatement.setLong(3, typeId);
 
@@ -30,16 +30,12 @@ public class DvdCreateServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         DvdDto dvdDto = mapper.readValue(request.getInputStream(), DvdDto.class);
 
-        try {
-            String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
+        String dbUrl = "jdbc:mysql://localhost/dvd_rental_app?useSSL=false";
 
-            try (Connection connection = DriverManager.getConnection(dbUrl, USERNAME, PASSWORD)) {
-                queryMessages(connection, dvdDto.getName(), dvdDto.getProductionYear(), dvdDto.getTypeId());
-            }
-        } catch (Exception ex) {
-            writer.println(ex);
-        } finally {
-            writer.close();
+        try (Connection connection = DriverManager.getConnection(dbUrl, USERNAME, PASSWORD)) {
+            queryMessages(connection, dvdDto.getTitle(), dvdDto.getProductionYear(), dvdDto.getTypeId());
+        } catch (SQLException e) {
+            response.sendError(500);
         }
     }
 }

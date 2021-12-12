@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.sql.*;
 
 @WebServlet(name = "DvdTypesServlet", value = "/dvd/types")
-public class DvdFindServlet extends HttpServlet {
+public class DvdTypesServlet extends HttpServlet {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
 
