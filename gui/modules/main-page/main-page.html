@@ -50,7 +50,10 @@
         <div ng-repeat="dvd in dvdData" class="col mb-3">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted">{{ dvd.type }}, {{ dvd.productionYear }}</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ dvd.type }}, {{ dvd.productionYear }}
+                    </h6>
+
                     <h5 class="card-title">{{ dvd.title }}</h5>
 
                     <button ng-click="dvd.showRentForm = true"
@@ -67,10 +70,11 @@
                                    name="rentClient"
                                    ng-model="dvdData[$index].rentClient"
                                    ng-pattern="/^\+?\d+$/"
-                                   required
-                            >
+                                   required>
 
-                            <button ng-disabled="rentForm{{dvd.id}}.$invalid" type="submit" class="btn btn-primary">
+                            <button ng-disabled="rentForm{{dvd.id}}.$invalid"
+                                    type="submit"
+                                    class="btn btn-primary">
                                 Confirm rent
                             </button>
                         </form>
@@ -79,7 +83,8 @@
                     <div ng-show="!!dvd.rentId">
                         <h6 class="card-subtitle mb-2 text-muted">
                             Rented {{ isNull(dvd.offerDt) ?
-                                'on an unknown date' : ((dvd.offerDt.split(' ')[0] | date) + ' ' + dvd.offerDt.split(' ')[1])
+                                'on an unknown date' :
+                                ((dvd.offerDt.split(' ')[0] | date) + ' ' + dvd.offerDt.split(' ')[1])
                             }} by
                             {{ (isNull(dvd.firstName) || isNull(dvd.lastName)) ?
                                 'unknown customer' : dvd.firstName + ' ' + dvd.lastName }},
